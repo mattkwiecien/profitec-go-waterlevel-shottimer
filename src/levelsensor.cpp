@@ -12,10 +12,18 @@ namespace LevelSensor {
     }
 
     void init() {
+        // 8 data bits, one stop bit and no parity
+        uart_set_format(uart1, 8, 1, UART_PARITY_NONE);
+        // Send HIGH pulse for 60ms to levelsenso
+        gpio_set_dir(PIN_LEVELSENSOR_TX, 1);
+        gpio_put(PIN_LEVELSENSOR_TX, 1);
+        sleep_ms(60);
+        gpio_put(PIN_LEVELSENSOR_TX, 0);
         // Route HW UART1 to given RX,TX pins.
         gpio_set_function(PIN_LEVELSENSOR_TX, GPIO_FUNC_UART);
         gpio_set_function(PIN_LEVELSENSOR_RX, GPIO_FUNC_UART);
     }
+
 
     float getFillPercentage() {
         // Read raw distance
@@ -41,9 +49,12 @@ namespace LevelSensor {
 
         // Try to read a valid value LEVEL_N_RETRY times
         for(uint16_t i=0; i<LEVEL_N_RETRY; i++) {
+
+            // Send something to trigger falling edge on sensor RX
+            uart_putc(uart1, '\n');
             
-            // Small timeout to wait for new data from sensor
-            sleep_ms(LEVEL_READ_DELAY_MS);
+            // 100 ms timeout to wait for sensor response
+            sleep_ms(100);
 
             // Recieved no new data. Retry by continuing with next loop
             if(!uart_is_readable(uart1)) {

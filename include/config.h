@@ -8,7 +8,7 @@
 // The intake for the pump sticks out about 2cm
 // The sensor sticks around ~2cm into the tank
 // So at 25cm - 2cm - 2cm = 21cm = 210mm, the pump starts sucking air (0% fill level)
-#define LEVEL_MAX_DIST_MM 210
+#define LEVEL_MAX_DIST_MM 130
 // DF-A02YYUW sensor has a blind distance of 3cm = 30mm
 #define LEVEL_MIN_DIST_MM 30
 // Number of times to try reading a value from the sensor
@@ -36,12 +36,12 @@
 // How much milliseconds one increment of the counter needs
 // For a precise shot time measurement, 1000ms should be used for a full second
 // My Profitec GO seems to count a bit faster than 1000ms
-#define TIMER_INCREMENT_MS 975
+#define TIMER_INCREMENT_MS 1000
 // The timer is started when the system is awake and a vibration is detected
 // The trigger delay defines how many milliseconds the system has to vibrate
 // while being awake until the timer is activated. This prevents the timer
 // from starting when e.g. the portafilter is removed/inserted
-#define TIMER_TRIGGER_DELAY_MS 2000
+#define TIMER_TRIGGER_DELAY_MS 1000
 
 
 // *******************************
